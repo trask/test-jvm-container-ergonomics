@@ -1,0 +1,31 @@
+name: Test JVM container ergonomics
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  linux-1g:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build
+        run: docker run --memory=1g eclipse-temurin:11-focal java -XX:+PrintFlagsFinal -version | grep -w MaxHeapSize
+
+  linux-default:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build
+        run: docker run eclipse-temurin:11-focal java -XX:+PrintFlagsFinal -version | grep -w MaxHeapSize
+
+  windows-1g:
+    runs-on: windows-latest
+    steps:
+      - name: Build
+        run: docker run --memory=1g eclipse-temurin:11-windowsservercore-1809 java -XX:+PrintFlagsFinal -version | grep -w MaxHeapSize
+
+  windows-default:
+    runs-on: windows-latest
+    steps:
+      - name: Build
+        run: docker run eclipse-temurin:11-windowsservercore-1809 java -XX:+PrintFlagsFinal -version | grep -w MaxHeapSize
